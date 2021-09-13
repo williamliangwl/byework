@@ -12,3 +12,7 @@ export const isIphoneX = () => {
       dimension.width === 896)
   );
 };
+
+export const isIOS = () => {
+  return Platform.OS === 'ios';
+};

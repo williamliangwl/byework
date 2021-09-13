@@ -1,13 +1,27 @@
 import React from 'react';
 import LeaveHistoryList from './components/LeaveHistoryList';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 import colors from 'src/constants/colors';
 import StatusBar from 'src/shared/components/StatusBar';
+import { connect } from 'react-redux';
+import { COUNTER_REDUCER } from 'src/redux/constants';
+import { decrement, increment } from 'src/redux/actions';
+import { Dispatch } from 'redux';
+import { ReduxState } from 'src/redux/store';
 
-export default () => {
+type Props = {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+};
+
+function Home(props: Props) {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.primary} barStyle={'light-content'} />
+      <Text style={{ fontSize: 20, color: 'white' }}>{props.count}</Text>
+      <Button title={'increment'} onPress={props.increment} />
+      <Button title={'decrement'} onPress={props.decrement} />
       <LeaveHistoryList
         histories={{
           2020: {
@@ -98,7 +112,7 @@ export default () => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -106,3 +120,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const mapStateToProps = (state: ReduxState) => ({
+  count: state[COUNTER_REDUCER].count,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  increment: () => {
+    return dispatch(increment());
+  },
+  decrement: () => {
+    return dispatch(decrement());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

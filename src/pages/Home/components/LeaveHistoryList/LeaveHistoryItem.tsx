@@ -14,7 +14,7 @@ type Props = {
   history: LeaveHistory;
 };
 
-export default (props: Props) => {
+export default React.memo((props: Props) => {
   const [isExpand, setExpand] = useState(false);
   const [expandAnim] = useState(new Animated.Value(0));
 
@@ -97,7 +97,7 @@ export default (props: Props) => {
       </View>
     </TouchableWithoutFeedback>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
